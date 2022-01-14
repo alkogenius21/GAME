@@ -5,7 +5,7 @@ from pygame.locals import *
 # Take colors input
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
-YELLOW = (255, 255, 0)
+
   
 #Construct the GUI game
 pygame.init()
