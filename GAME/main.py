@@ -13,7 +13,7 @@ display = pg.display.set_mode((s.disp_width, s.disp_height), flags, vsync = 1)
 class game:
 
     def __init__(self, x, y):
-        self.x = x
+        self.x = x1
         self.y = y
         self.usr_width = 60
         self.usr_height = 100
