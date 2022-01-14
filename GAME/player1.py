@@ -2,8 +2,7 @@ import pygame
 import math
 from pygame.locals import *
   
-# Take colors input
-RED = (255, 0, 0)
+
 BLACK = (0, 0, 0)
 
   
