@@ -8,7 +8,7 @@ import pygame_menu
 
 flags = pg.FULLSCREEN | pg.DOUBLEBUF
 display = pg.display.set_mode((s.disp_width, s.disp_height), flags, vsync = 1)
-#Gjitk
+
       
 class game:
 

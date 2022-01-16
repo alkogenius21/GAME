@@ -10,5 +10,6 @@ class start_video:
         pg.mouse.set_visible(False)
         self.clip = VideoFileClip(self.vfile).resize(screensize)
         self.clip.preview()
+
     def __del__(self):
         print()
