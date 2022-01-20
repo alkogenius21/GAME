@@ -6,11 +6,70 @@ from video import start_video
 import size as s
 import pygame_menu
 
-
+# global arguments
 main_theme = pygame_menu.themes.THEME_DARK.copy()
 main_theme.set_background_color_opacity(0.4)
 flags = pg.FULLSCREEN | pg.DOUBLEBUF
 display = pg.display.set_mode((s.disp_width, s.disp_height), flags, vsync = 1)
+
+class Pause:
+
+    def __init__(self):
+        self.menu = Menu()
+
+    def Continue(self):
+        pg.mixer.music.unpause()
+        self.bool = False
+
+    def set_volume(self, a, volume):
+        pg.mixer.music.set_volume(volume)
+
+    def back_to_the_pause_menu(self):
+        self.bool1 = False
+
+    def settings(self):
+        self.p_menu.settings = pygame_menu.Menu('Settings', 350, 350,
+                           theme=main_theme)
+        self.p_menu.settings.add.button('Back', self.back_to_the_pause_menu)
+        self.p_menu.settings.add.selector('Volume :', [('Loudness', 0.8), ('Middle', 0.5), ('Quiet', 0.2)], onchange=self.set_volume)
+
+        self.bool1 = True
+
+        while self.bool1:
+
+            events = pg.event.get()
+            for event in events:
+                if event.type == pg.QUIT:
+                    exit()
+
+            if self.p_menu.settings.is_enabled():
+                self.p_menu.settings.update(events)
+                self.p_menu.settings.draw(display)
+
+            pg.display.update()
+
+    def pause(self):
+        pg.mixer.music.pause()
+        self.p_menu = pygame_menu.Menu('Pause', 350, 350,
+                           theme=main_theme)
+
+        self.p_menu.add.button('Continue', self.Continue)
+        self.p_menu.add.button('Settings', self.settings)
+        self.p_menu.add.button('Back to the main menu', self.menu.main_menu)
+        self.p_menu.add.button('Quit', pygame_menu.events.EXIT)
+        self.bool = True
+        while self.bool:
+
+            events = pg.event.get()
+            for event in events:
+                if event.type == pg.QUIT:
+                    exit()
+
+            if self.p_menu.is_enabled():
+                self.p_menu.update(events)
+                self.p_menu.draw(display)
+
+            pg.display.update()
 
 class Menu:
 
@@ -24,7 +83,7 @@ class Menu:
 
         self.setting_m = pygame_menu.Menu('Revenge Alpha Build', 1280, 720,
                        theme=main_theme)
-        self.setting_m.add.button('Back', main_menu)
+        self.setting_m.add.button('Back', self.main_menu)
         
         while True:
             display.blit(self.bg, (0, 0))
@@ -63,6 +122,9 @@ class Menu:
                 self.menu.draw(display)
 
             pg.display.update()
+
+    def __del__(self):
+        print()
       
 class game:
 
@@ -74,7 +136,8 @@ class game:
         self.usr_x = s.disp_width // 3
         self.usr_y = s.disp_height - self.usr_height - 100
         self.fps = 60
-        self.menu = Menu()
+        self.pause = Pause()
+
     def run(self):
         
         pg.init()
@@ -99,14 +162,10 @@ class game:
                 if event.type == pg.QUIT:
                     self.ev = False
                     #pg.quit()
-                    #sys.exit()
-                    self.menu.main_menu()
-                elif event.type == pg.KEYDOWN:
-                    if event.key == pg.K_ESCAPE:
-                        self.ev = False
-                        #pg.quit()
-                        #sys.exit()
-                        self.menu.main_menu()
+                    #sys.exit()          
+            key = pg.key.get_pressed()
+            if key[pg.K_ESCAPE]:
+                self.pause.pause()
 
             self.all_sprites.update()
 
@@ -122,8 +181,9 @@ if __name__ == '__main__':
 
     play.play_vid()
     del play
-    #play1.play_vid()
+    play1.play_vid()
     del play1
 
     menu = Menu()
     menu.main_menu()
+    del menu
