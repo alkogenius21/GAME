@@ -73,6 +73,9 @@ class Pause:
 
 class Menu:
 
+    pg.mixer.init()
+    pg.mixer.music.load('assets/2.mp3')
+
     def start_the_game(self):
         self.start_game = game(0, 0)
         self.start_game.run()
@@ -106,10 +109,12 @@ class Menu:
         self.menu.add.button('Continue', self.start_the_game)
         self.menu.add.button('Settings', self.settings)
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
+
         pg.mixer.init()
         pg.mixer.music.load('assets/2.mp3')
-        pg.mixer.music.play()
+        pg.mixer.music.play(10)
         bg = pg.image.load('assets/1.jpg')
+
         while True:
             display.blit(bg, (0, 0))
             events = pg.event.get()
