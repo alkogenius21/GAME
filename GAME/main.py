@@ -30,9 +30,9 @@ class Pause:
     def settings(self):
         self.p_menu.settings = pygame_menu.Menu('Settings', 350, 350,
                            theme=main_theme)
-        self.p_menu.settings.add.button('Back', self.back_to_the_pause_menu)
         self.p_menu.settings.add.selector('Volume :', [('Loudness', 0.8), ('Middle', 0.5), ('Quiet', 0.2)], onchange=self.set_volume)
-
+        self.p_menu.settings.add.button('Back', self.back_to_the_pause_menu)
+        
         self.bool1 = True
 
         while self.bool1:
