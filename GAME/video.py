@@ -1,6 +1,9 @@
 from moviepy.editor import *
 import pygame as pg
 from size import *
+from moviepy.editor import VideoFileClip, AudioFileClip
+import moviepy.video.fx.all as vfx
+
 
 class start_video:
     def __init__(self, vfile):
