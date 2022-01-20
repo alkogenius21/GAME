@@ -6,9 +6,63 @@ from video import start_video
 import size as s
 import pygame_menu
 
+
+main_theme = pygame_menu.themes.THEME_DARK.copy()
+main_theme.set_background_color_opacity(0.4)
 flags = pg.FULLSCREEN | pg.DOUBLEBUF
 display = pg.display.set_mode((s.disp_width, s.disp_height), flags, vsync = 1)
 
+class Menu:
+
+    def start_the_game(self):
+        self.start_game = game(0, 0)
+        self.start_game.run()
+
+    def settings(self):
+        pg.init()
+        self.bg = pg.image.load('assets/1.jpg')
+
+        self.setting_m = pygame_menu.Menu('Revenge Alpha Build', 1280, 720,
+                       theme=main_theme)
+        self.setting_m.add.button('Back', main_menu)
+        
+        while True:
+            display.blit(self.bg, (0, 0))
+            events = pg.event.get()
+            for event in events:
+                if event.type == pg.QUIT:
+                    exit()
+
+            if self.setting_m.is_enabled():
+                self.setting_m.update(events)
+                self.setting_m.draw(display)
+
+            pg.display.update()
+
+    def main_menu(self):
+        self.menu = pygame_menu.Menu('Revenge Alpha Build', 600, 400,
+                           theme=main_theme)
+
+        self.menu.add.button('Play', self.start_the_game)
+        self.menu.add.button('Continue', self.start_the_game)
+        self.menu.add.button('Settings', self.settings)
+        self.menu.add.button('Quit', pygame_menu.events.EXIT)
+        pg.mixer.init()
+        pg.mixer.music.load('assets/2.mp3')
+        pg.mixer.music.play()
+        bg = pg.image.load('assets/1.jpg')
+        while True:
+            display.blit(bg, (0, 0))
+            events = pg.event.get()
+            for event in events:
+                if event.type == pg.QUIT:
+                    exit()
+
+            if self.menu.is_enabled():
+                self.menu.update(events)
+                self.menu.draw(display)
+
+            pg.display.update()
       
 class game:
 
@@ -20,7 +74,7 @@ class game:
         self.usr_x = s.disp_width // 3
         self.usr_y = s.disp_height - self.usr_height - 100
         self.fps = 60
-
+        self.menu = Menu()
     def run(self):
         
         pg.init()
@@ -46,13 +100,13 @@ class game:
                     self.ev = False
                     #pg.quit()
                     #sys.exit()
-                    main_menu()
+                    self.menu.main_menu()
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_ESCAPE:
                         self.ev = False
                         #pg.quit()
                         #sys.exit()
-                        main_menu()
+                        self.menu.main_menu()
 
             self.all_sprites.update()
 
@@ -71,56 +125,5 @@ if __name__ == '__main__':
     #play1.play_vid()
     del play1
 
-    main_theme = pygame_menu.themes.THEME_DARK.copy()
-    main_theme.set_background_color_opacity(0.4)
-    def start_the_game():
-        start_game = game(0, 0)
-        start_game.run()
-
-    def settings():
-        pg.init()
-        bg = pg.image.load('assets/1.jpg')
-
-        setting_m = pygame_menu.Menu('Revenge Alpha Build', 1280, 720,
-                       theme=main_theme)
-        setting_m.add.button('Back', main_menu)
-        
-        while True:
-            display.blit(bg, (0, 0))
-            events = pg.event.get()
-            for event in events:
-                if event.type == pg.QUIT:
-                    exit()
-
-            if setting_m.is_enabled():
-                setting_m.update(events)
-                setting_m.draw(display)
-
-            pg.display.update()
-
-    def main_menu():
-        menu = pygame_menu.Menu('Revenge Alpha Build', 600, 400,
-                           theme=main_theme)
-
-        menu.add.button('Play', start_the_game)
-        menu.add.button('Continue', start_the_game)
-        menu.add.button('Settings', settings)
-        menu.add.button('Quit', pygame_menu.events.EXIT)
-        pg.mixer.init()
-        pg.mixer.music.load('assets/2.mp3')
-        pg.mixer.music.play()
-        bg = pg.image.load('assets/1.jpg')
-        while True:
-            display.blit(bg, (0, 0))
-            events = pg.event.get()
-            for event in events:
-                if event.type == pg.QUIT:
-                    exit()
-
-            if menu.is_enabled():
-                menu.update(events)
-                menu.draw(display)
-
-            pg.display.update()
-
-    main_menu()
+    menu = Menu()
+    menu.main_menu()
