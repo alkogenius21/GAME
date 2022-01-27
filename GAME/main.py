@@ -186,7 +186,7 @@ if __name__ == '__main__':
 
     play.play_vid()
     del play
-    play1.play_vid()
+    #play1.play_vid()
     del play1
 
     menu = Menu()
