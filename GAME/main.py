@@ -1,7 +1,7 @@
 import pygame as pg
 from pygame.constants import DOUBLEBUF, FULLSCREEN, OPENGL
 import sys
-from player import Player
+from player import *
 from video import start_video
 import size as s
 import pygame_menu
@@ -11,7 +11,6 @@ main_theme = pygame_menu.themes.THEME_DARK.copy()
 main_theme.set_background_color_opacity(0.4)
 flags = pg.FULLSCREEN | pg.DOUBLEBUF
 display = pg.display.set_mode((s.disp_width, s.disp_height), flags, vsync = 1)
-
 class Pause:
 
     def __init__(self):
@@ -117,6 +116,7 @@ class Menu:
         bg = pg.image.load('assets/1.jpg')
         bg = pg.transform.scale(bg, s.screensize)
 
+
         while True:
             display.blit(bg, (0, 0))
             events = pg.event.get()
@@ -132,6 +132,7 @@ class Menu:
 
     def __del__(self):
         print()
+
       
 class game:
 
@@ -144,6 +145,7 @@ class game:
         self.usr_y = s.disp_height - self.usr_height - 100
         self.fps = 60
         self.pause = Pause()
+
 
     def run(self):
         
@@ -163,6 +165,34 @@ class game:
         self.play = Player()
         self.all_sprites.add(self.play)
 
+
+        level = [
+            "WWWWWWWWWWWWWWWWWWWW",
+            "W                  W",
+            "W         WWWWWW   W",
+            "W   WWWW       W   W",
+            "W   W        WWWW  W",
+            "W WWW  WWWW        W",
+            "W   W     W W      W",
+            "W   W     W   WWW WW",
+            "W   WWW WWW   W W  W",
+            "W     W   W   W W  W",
+            "WWW   W   WWWWW W  W",
+            "W W      WW        W",
+            "W W   WWWW         W",
+            "W     W            W",
+            "WWWWWWWWWWWWWWWWWWWW",
+        ]
+
+        x = y = 0
+        for row in level:
+            for col in row:
+                if col == "W":
+                    Wall((x, y))
+                x += 72
+            y += 72
+            x = 0
+
         self.ev = True
         while self.ev:
             self.clock.tick(self.fps)
@@ -174,11 +204,11 @@ class game:
             key = pg.key.get_pressed()
             if key[pg.K_ESCAPE]:
                 self.pause.pause()
-
             self.all_sprites.update()
-
             display.blit(self.bgg, (0, 0))
             pg.draw.rect(display, (247, 240, 22), (self.usr_x, self.usr_y, self.usr_width, self.usr_height))
+            for wall in walls:
+                pg.draw.rect((display), (255, 255, 255), wall.rect)
             self.all_sprites.draw(display)
             pg.display.flip()
 
@@ -189,7 +219,7 @@ if __name__ == '__main__':
 
     play.play_vid()
     del play
-    #  play1.play_vid()
+    #play1.play_vid()
     del play1
 
     menu = Menu()

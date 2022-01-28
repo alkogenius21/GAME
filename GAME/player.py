@@ -5,7 +5,7 @@ import math
 
 WIDTH = disp_width
 HEIGHT = disp_height
-
+walls = []
 GREEN = (0, 255, 0)
 
 class Player(pygame.sprite.Sprite):
@@ -20,25 +20,39 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = HEIGHT - 100
         self.speedx = 0
 
+
     def keyboard(self):
 
         self.speedx = 0
         self.speedy = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_a]:
-            self.speedx = -8
+            self.speedx = -6
         if keystate[pygame.K_d]:
-            self.speedx = 8
+            self.speedx = 6
         if keystate[pygame.K_w]:
-            self.speedy = -8
+            self.speedy = -6
         if keystate[pygame.K_s]:
-            self.speedy = 8
+            self.speedy = 6
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+        # if self.rect.right > WIDTH:
+        #     self.rect.right = WIDTH
+        # if self.rect.left < 0:
+        #     self.rect.left = 0
+
+
+        for wall in walls:
+            if self.rect.colliderect(wall.rect):
+                if self.speedx > 0:
+                    self.rect.right = wall.rect.left
+                if self.speedx < 0:
+                    self.rect.left = wall.rect.right
+                if self.speedy > 0:
+                    self.rect.bottom = wall.rect.top
+                if self.speedy < 0:
+                    self.rect.top = wall.rect.bottom
+
 
     def rotate(self):
 
@@ -49,3 +63,8 @@ class Player(pygame.sprite.Sprite):
     def update(self):
 
         self.keyboard()
+
+class Wall:
+    def __init__(self, pos):
+        walls.append(self)
+        self.rect = pygame.Rect(pos[0], pos[1], 72, 72)
