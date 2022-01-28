@@ -83,6 +83,7 @@ class Menu:
     def settings(self):
         pg.init()
         self.bg = pg.image.load('assets/1.jpg')
+        self.bg = pg.transform.scale(self.bg, s.screensize)
 
         self.setting_m = pygame_menu.Menu('Revenge Alpha Build', 1280, 720,
                        theme=main_theme)
@@ -114,6 +115,7 @@ class Menu:
         pg.mixer.music.load('assets/2.mp3')
         pg.mixer.music.play(10)
         bg = pg.image.load('assets/1.jpg')
+        bg = pg.transform.scale(bg, s.screensize)
 
         while True:
             display.blit(bg, (0, 0))
@@ -151,6 +153,7 @@ class game:
         self.clock = pg.time.Clock()
         
         self.bgg = pg.image.load('assets/2.jpg')
+        self.bgg = pg.transform.scale(self.bgg, s.screensize)
 
         pg.display.set_caption('Revenge alpha')
         pg.mixer.music.load('assets/3.mp3')
@@ -186,7 +189,7 @@ if __name__ == '__main__':
 
     play.play_vid()
     del play
-    #play1.play_vid()
+    #  play1.play_vid()
     del play1
 
     menu = Menu()
