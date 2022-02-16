@@ -14,7 +14,7 @@ class Player(pygame.sprite.Sprite):
 
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('assets/png2.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (120, 120))
+        self.image = pygame.transform.scale(self.image, (60, 60))
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 100
@@ -44,9 +44,9 @@ class Player(pygame.sprite.Sprite):
 
         for wall in walls:
             if self.rect.colliderect(wall.rect):
-                if self.speedx > 0:
+                if self.rect.right > 0:
                     self.rect.right = wall.rect.left
-                if self.speedx < 0:
+                if self.rect.left < 0:
                     self.rect.left = wall.rect.right
                 if self.speedy > 0:
                     self.rect.bottom = wall.rect.top
@@ -67,4 +67,4 @@ class Player(pygame.sprite.Sprite):
 class Wall:
     def __init__(self, pos):
         walls.append(self)
-        self.rect = pygame.Rect(pos[0], pos[1], 72, 72)
+        self.rect = pygame.Rect(pos[0], pos[1], 52, 40)

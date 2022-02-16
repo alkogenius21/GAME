@@ -1,94 +1,137 @@
-import pygame
+﻿import pygame
+import sys
 import math
-from pygame.locals import *
-  
-# Take colors input
-RED = (255, 0, 0)
-BLACK = (0, 0, 0)
 
-  
-#Construct the GUI game
 pygame.init()
-  
-#Set dimensions of game GUI
-w, h = 600, 440
-screen = pygame.display.set_mode((w, h))
-  
-# Set running, angle and scale values
-running = True
-angle = 0
-scale = 1
-  
-# Take image as input
-img_logo = pygame.image.load('assets/png1.png')
-img_logo.convert()
-  
-# Draw a rectangle around the image
-rect_logo = img_logo.get_rect()
-pygame.draw.rect(img_logo, RED, rect_logo, 1)
-  
-# Set the center and mouse position
-center = w//2, h//2
-mouse = pygame.mouse.get_pos()
-  
-#Store the image in a new variable
-#Construct the rectangle around image
-img = img_logo
-rect = img.get_rect()
-rect.center = center
-  
-# Setting what happens when game is
-# in running state
-while running:
+
+display = pygame.display.set_mode((1024,768))
+clock = pygame.time.Clock()
+
+class Player:
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.rect = pygame.Rect(x, y, width, height)
+
+    def move(self, x ,y):
+        if x != 0:
+            self.move_on(x, 0)
+        if y != 0:
+            self.move_on(0, y)
+
+    def move_on(self, x, y):
+        self.rect.x += x
+        self.rect.y +=y
+
+        for wall in walls:
+            if self.rect.colliderect(wall.rect):
+                if x > 0:
+                    self.rect.right = wall.rect.left
+                if x < 0:
+                    self.rect.left = wall.rect.right
+                if y > 0:
+                    self.rect.bottom = wall.rect.top
+                if y < 0:
+                    self.rect.top = wall.rect.bottom
+
+
+class PlayerBullet:
+    def __init__(self, x, y, mouse_x, mouse_y):
+        self.x = x
+        self.y = y
+        self.mouse_x = mouse_x
+        self.mouse_y = mouse_y
+        self.speed = 16
+        self.angle = math.atan2(y-mouse_y, x-mouse_x)
+        self.x_vel = math.cos(self.angle) * self.speed
+        self.y_vel = math.sin(self.angle) * self.speed
+    def main(self, display):
+        self.x -= int(self.x_vel)
+        self.y -= int(self.y_vel)
+
+        pygame.draw.circle(display, (255, 0, 0), (self.x, self.y), 4)
+
+class Wall:
+    def __init__(self, pos):
+        walls.append(self)
+        self.rect = pygame.Rect(pos[0], pos[1], 48, 48)
+
+player = Player(640, 384, 16, 16)
+player_bullet = []
+walls = []
+
+level = [
+"WWWWWWWWWWWWWWWWWWWW",
+"W                  W",
+"W         WWWWWW   W",
+"W   WWWW       W   W",
+"W   W        WWWW  W",
+"W WWW  WWWW        W",
+"W   W     W W      W",
+"W   W     W   WWW WW",
+"W   WWW WWW   W W  W",
+"W     W   W   W W  W",
+"WWW   W   WWWWW W  W",
+"W W      WW        W",
+"W W   WWWW   WWW   W",
+"W     W        W   W",
+"WWWWWWWWWWWWWWWWWWWW",
+]
+
+x = y = 0
+for row in level:
+    for col in row:
+        if col == "W":
+            Wall((x,y))
+        x += 48
+    y += 48
+    x=0
+while True:
+    pressed_key = pygame.key.get_pressed()
+    pressed_mouse = pygame.mouse.get_pressed()
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    speed = 6
     for event in pygame.event.get():
-  
-        # Close if the user quits the game
-        if event.type == QUIT:
-            running = False
-  
-        # Set at which angle the image will
-        # move left or right
-        if event.type == KEYDOWN:
-            if event.key == K_ra:
-                if event.mod & KMOD_SHIFT:
-                    angle -= 5
-                else:
-                    angle += 5
-  
-            # Set at what ratio the image will
-            # decrease or increase
-            elif event.key == K_sa:
-                if event.mod & KMOD_SHIFT:
-                    scale /= 1.5
-                else:
-                    scale *= 1.5
-                  
-        # Move the image with the specified coordinates,
-        # angle and scale        
-        elif event.type == MOUSEMOTION:
-            mouse = event.pos
-            x = mouse[0] - center[0]
-            y = mouse[1] - center[1]
-            d = math.sqrt(x ** 2 + y ** 2)
-            angle = math.degrees(-math.atan2(y, x))
-            scale = abs(5 * d / w)
-            img = pygame.transform.rotate(img_logo, angle)
-            rect = img.get_rect()
-            rect.center = center
-      
-    # Set screen color and image on screen
-    screen.fill(YELLOW)
-    screen.blit(img, rect)
-  
-    # Draw the rectangle, line and circle through
-    # which image can be transformed 
-    pygame.draw.rect(screen, BLACK, rect, 3)
-    pygame.draw.line(screen, RED, center, mouse, 2)
-    pygame.draw.circle(screen, RED, center, 6, 1)
-    pygame.draw.circle(screen, BLACK, mouse, 6, 2)
-      
-    # Update the GUI game
+        if event.type == pygame.QUIT:
+            sys.exit()
+            pygame.QUIT
+        # if pressed_mouse[0]:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                player_bullet.append(PlayerBullet(player.x, player.y, mouse_x, mouse_y))
+    if pressed_key[ord ('w')]:
+        player.move(0, -6)
+    if pressed_key[ord ('s')]:
+        player.move(0, 6)
+    if pressed_key[ord('a')]:
+        player.move(-6, 0)
+    if pressed_key[ord('d')]:
+        player.move(6, 0)
+        # if pressed_key[ord('w')]:
+        #     player.y -= speed
+        #     for bullet in player_bullet:
+        #         bullet.y += speed
+        # if pressed_key[ord('s')]:
+        #     player.y += speed
+        #     for bullet in player_bullet:
+        #         bullet.y -= speed
+        # if pressed_key[ord('d')]:
+        #     player.x += speed
+        #     for bullet in player_bullet:
+        #         bullet.x -= speed
+        # if pressed_key[ord('a')]:
+        #     player.x -= speed
+        #     for bullet in player_bullet:
+        #         bullet.x += speed
+
+    display.fill((0, 0, 0))
+    pygame.draw.rect(display, (0, 255, 0), player.rect)
+    for wall in walls:
+        pygame.draw.rect((display), (255, 255, 255), wall.rect)
+    for bullet in player_bullet:
+        bullet.main(display)
+
+    clock.tick(60)
     pygame.display.update()
-  
-# Quit the GUI game
-pygame.quit()
