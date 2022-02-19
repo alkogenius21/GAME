@@ -16,8 +16,6 @@ class Player:
         self.image = pygame.image.load('assets/png2.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = pygame.Rect(x, y, width, height)
-        self.imag = pygame.image.load('assets/png2.png').convert_alpha()
-        self.imag = pygame.transform.scale(self.imag, (30, 30))
 
         self.rect.centerx = 1024 / 2
         self.rect.bottom = 768 - 100
@@ -32,9 +30,6 @@ class Player:
         self.rect.x += x
         self.rect.y += y
 
-
-        #self.rect = self.imag.get_rect()
-
         for wall in walls:
             if self.rect.colliderect(wall.rect):
                 if x > 0:
@@ -46,17 +41,12 @@ class Player:
                 if y < 0:
                     self.rect.top = wall.rect.bottom
 
-    def rotate(self):
-        self.mouse = pygame.mouse.get_pos()
-        for even in pygame.event.get():
-            if even.type == pygame.MOUSEMOTION:
-                mouse = even.pos
-                x = mouse[0] - self.rect.x
-                y = mouse[1] - self.rect.y
 
-                self.angle = math.degrees(-math.atan2(y, x))
-                self.imag = pygame.transform.rotate(self.image, self.angle)
-                self.rect = self.imag.get_rect()
+    def rotate(self):
+        pos = pygame.mouse.get_pos()
+        angle = 720-math.atan2(pos[1]-300,pos[0]-400)*180/math.pi
+        self.img = pygame.transform.rotate(self.image, angle)
+        self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y + 15))
 
 
 class PlayerBullet:
@@ -80,7 +70,7 @@ class Wall:
         walls.append(self)
         self.rect = pygame.Rect(pos[0], pos[1], 90, 90)
 
-player = Player(640, 384, 10, 10)
+player = Player(640, 384, 30, 30)
 player_bullet = []
 walls = []
 
@@ -122,7 +112,9 @@ while True:
         # if pressed_mouse[0]:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                player_bullet.append(PlayerBullet(player.x, player.y, mouse_x, mouse_y))
+                player_bullet.append(PlayerBullet(player.rect.x + 15, player.rect.y + 15, mouse_x, mouse_y))
+
+    player.rotate()
     if pressed_key[ord ('w')]:
         player.move(0, -6)
     if pressed_key[ord ('s')]:
@@ -147,16 +139,15 @@ while True:
         #     player.x -= speed
         #     for bullet in player_bullet:
         #         bullet.x += speed
-    player.rotate()
+
     display.fill((0, 0, 0))
 
-    display.blit(player.image, player.rect)
-    display.blit(player.imag, player.rect)
+    display.blit(player.img, player.rect1)
 
     for wall in walls:
         pygame.draw.rect((display), (255, 255, 255), wall.rect)
     for bullet in player_bullet:
         bullet.main(display)
 
-    clock.tick(144)
+    clock.tick(60)
     pygame.display.update()

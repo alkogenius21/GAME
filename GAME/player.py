@@ -14,7 +14,7 @@ class Player(pygame.sprite.Sprite):
 
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('assets/png2.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (60, 60))
+        self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 100
@@ -36,10 +36,10 @@ class Player(pygame.sprite.Sprite):
             self.speedy = 6
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-        # if self.rect.right > WIDTH:
-        #     self.rect.right = WIDTH
-        # if self.rect.left < 0:
-        #     self.rect.left = 0
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
 
 
         for wall in walls:
