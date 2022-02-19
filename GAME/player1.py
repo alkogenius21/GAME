@@ -46,7 +46,7 @@ class Player:
         pos = pygame.mouse.get_pos()
         angle = 720-math.atan2(pos[1]-300,pos[0]-400)*180/math.pi
         self.img = pygame.transform.rotate(self.image, angle)
-        self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y + 15))
+        self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y - 15))
 
 
 class PlayerBullet:
@@ -112,7 +112,7 @@ while True:
         # if pressed_mouse[0]:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                player_bullet.append(PlayerBullet(player.rect.x + 15, player.rect.y + 15, mouse_x, mouse_y))
+                player_bullet.append(PlayerBullet(player.rect.x + 15, player.rect.y - 15, mouse_x, mouse_y))
 
     player.rotate()
     if pressed_key[ord ('w')]:

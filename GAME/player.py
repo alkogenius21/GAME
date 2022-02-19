@@ -36,6 +36,7 @@ class Player(pygame.sprite.Sprite):
             self.speedy = 6
         self.rect.x += self.speedx
         self.rect.y += self.speedy
+
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.left < 0:

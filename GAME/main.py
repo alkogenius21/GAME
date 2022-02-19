@@ -5,6 +5,9 @@ from player import *
 from video import start_video
 import size as s
 import pygame_menu
+import threading
+
+
 
 # global arguments
 main_theme = pygame_menu.themes.THEME_DARK.copy()
@@ -75,9 +78,17 @@ class Menu:
     pg.mixer.init()
     pg.mixer.music.load('assets/2.mp3')
 
+    def load_bg(self):
+        pass
+
     def start_the_game(self):
         self.start_game = game(0, 0)
-        self.start_game.run()
+        #self.start_game.run()
+        self.p1 = threading.Thread(target=self.start_game.run())
+        print(self.p1.is_alive())
+        self.p1.start()
+
+        print(self.p1.is_alive())
 
     def settings(self):
         pg.init()
@@ -185,7 +196,7 @@ class game:
         ]
 
         x = s.disp_width // 4
-        y = 0
+        y = s.disp_height - 1000
         for row in level:
             for col in row:
                 if col == "W":
