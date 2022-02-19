@@ -167,31 +167,32 @@ class game:
 
 
         level = [
-            "WWWWWWWWWWWWWWWWWWWW",
-            "W                  W",
-            "W         WWWWWW   W",
-            "W   WWWW       W   W",
-            "W   W        WWWW  W",
-            "W WWW  WWWW        W",
-            "W   W     W W      W",
-            "W   W     W   WWW WW",
-            "W   WWW WWW   W W  W",
-            "W     W   W   W W  W",
-            "WWW   W   WWWWW W  W",
-            "W W      WW        W",
-            "W W   WWWW         W",
-            "W     W            W",
-            "WWWWWWWWWWWWWWWWWWWW",
+            "WWWWWWWWWWWWWWWWWWWWW",
+            "W                   W",
+            "W         WWWWWW    W",
+            "W   WWWW       W    W",
+            "W   W        WWWW   W",
+            "W WWW  WWWW         W",
+            "W   W     W W       W",
+            "W   W     W   WWW W W",
+            "W   WWW WWW   W W   W",
+            "W     W   W   W W   W",
+            "WWW   W   WWWWW W   W",
+            "W W      WW         W",
+            "W W   WWWW          W",
+            "W     W             W",
+            "WWWWWWWWWWWWWWW WWWWW",
         ]
 
-        x = y = 0
+        x = s.disp_width // 4
+        y = 0
         for row in level:
             for col in row:
                 if col == "W":
                     Wall((x, y))
-                x += 72
-            y += 72
-            x = 0
+                x += 52
+            y += 52
+            x = s.disp_width // 4
 
         self.ev = True
         while self.ev:
@@ -207,8 +208,10 @@ class game:
             self.all_sprites.update()
             display.blit(self.bgg, (0, 0))
             pg.draw.rect(display, (247, 240, 22), (self.usr_x, self.usr_y, self.usr_width, self.usr_height))
+            #for wall in walls:
+                #pg.draw.rect((display), (255, 255, 255), wall.rect)
             for wall in walls:
-                pg.draw.rect((display), (255, 255, 255), wall.rect)
+                display.blit(wall.image, wall.rect)
             self.all_sprites.draw(display)
             pg.display.flip()
 

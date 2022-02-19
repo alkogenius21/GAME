@@ -13,17 +13,27 @@ class Player:
         self.y = y
         self.width = width
         self.height = height
+        self.image = pygame.image.load('assets/png2.png').convert_alpha()
+        self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = pygame.Rect(x, y, width, height)
+        self.imag = pygame.image.load('assets/png2.png').convert_alpha()
+        self.imag = pygame.transform.scale(self.imag, (30, 30))
 
+        self.rect.centerx = 1024 / 2
+        self.rect.bottom = 768 - 100
+        center = [1024/2, 768 - 100]
     def move(self, x ,y):
         if x != 0:
             self.move_on(x, 0)
         if y != 0:
-            self.move_on(0, y)
+            self.move_on(0, y)       
 
     def move_on(self, x, y):
         self.rect.x += x
-        self.rect.y +=y
+        self.rect.y += y
+
+
+        #self.rect = self.imag.get_rect()
 
         for wall in walls:
             if self.rect.colliderect(wall.rect):
@@ -35,6 +45,18 @@ class Player:
                     self.rect.bottom = wall.rect.top
                 if y < 0:
                     self.rect.top = wall.rect.bottom
+
+    def rotate(self):
+        self.mouse = pygame.mouse.get_pos()
+        for even in pygame.event.get():
+            if even.type == pygame.MOUSEMOTION:
+                mouse = even.pos
+                x = mouse[0] - self.rect.x
+                y = mouse[1] - self.rect.y
+
+                self.angle = math.degrees(-math.atan2(y, x))
+                self.imag = pygame.transform.rotate(self.image, self.angle)
+                self.rect = self.imag.get_rect()
 
 
 class PlayerBullet:
@@ -56,9 +78,9 @@ class PlayerBullet:
 class Wall:
     def __init__(self, pos):
         walls.append(self)
-        self.rect = pygame.Rect(pos[0], pos[1], 48, 48)
+        self.rect = pygame.Rect(pos[0], pos[1], 90, 90)
 
-player = Player(640, 384, 16, 16)
+player = Player(640, 384, 10, 10)
 player_bullet = []
 walls = []
 
@@ -77,7 +99,7 @@ level = [
 "W W      WW        W",
 "W W   WWWW   WWW   W",
 "W     W        W   W",
-"WWWWWWWWWWWWWWWWWWWW",
+"WWWWWWWWWWWWWW WWWWW",
 ]
 
 x = y = 0
@@ -85,8 +107,8 @@ for row in level:
     for col in row:
         if col == "W":
             Wall((x,y))
-        x += 48
-    y += 48
+        x += 90
+    y += 90
     x=0
 while True:
     pressed_key = pygame.key.get_pressed()
@@ -125,13 +147,16 @@ while True:
         #     player.x -= speed
         #     for bullet in player_bullet:
         #         bullet.x += speed
-
+    player.rotate()
     display.fill((0, 0, 0))
-    pygame.draw.rect(display, (0, 255, 0), player.rect)
+
+    display.blit(player.image, player.rect)
+    display.blit(player.imag, player.rect)
+
     for wall in walls:
         pygame.draw.rect((display), (255, 255, 255), wall.rect)
     for bullet in player_bullet:
         bullet.main(display)
 
-    clock.tick(60)
+    clock.tick(144)
     pygame.display.update()

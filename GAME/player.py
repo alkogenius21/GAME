@@ -67,4 +67,9 @@ class Player(pygame.sprite.Sprite):
 class Wall:
     def __init__(self, pos):
         walls.append(self)
-        self.rect = pygame.Rect(pos[0], pos[1], 52, 40)
+        self.image = pygame.image.load('assets/wall.png')
+        self.image = pygame.transform.scale(self.image, (52, 52))
+        #self.rect = pygame.Rect(pos[0], pos[1], 52, 52)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = pos[0]
+        self.rect.bottom = pos[1]
