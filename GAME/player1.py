@@ -17,9 +17,6 @@ class Player:
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = pygame.Rect(x, y, width, height)
 
-        self.rect.centerx = 1024 / 2
-        self.rect.bottom = 768 - 100
-        center = [1024/2, 768 - 100]
     def move(self, x ,y):
         if x != 0:
             self.move_on(x, 0)
@@ -44,7 +41,7 @@ class Player:
 
     def rotate(self):
         pos = pygame.mouse.get_pos()
-        angle = 720-math.atan2(pos[1]-300,pos[0]-400)*180/math.pi
+        angle = 720-math.atan2(pos[1]-512,pos[0]-334)*180/math.pi
         self.img = pygame.transform.rotate(self.image, angle)
         self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y - 15))
 
