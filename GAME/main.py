@@ -196,7 +196,7 @@ if __name__ == '__main__':
     play = start_video('assets/intro.mp4')
     play1 = start_video('assets/video.mp4')
 
-    play.play_vid()
+    #play.play_vid()
     del play
     #play1.play_vid()
     del play1

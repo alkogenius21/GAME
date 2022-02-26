@@ -52,8 +52,8 @@ class Player:
 
     def rotate(self):
         self.pos = pygame.mouse.get_pos()
-        self.angle = 720-math.atan2(self.pos[1]-512,self.pos[0]-334) * 180 / math.pi
-        self.img = pygame.transform.rotate(self.image, self.angle)
+        self.angle = (180 / math.pi) * -math.atan2(self.pos[1] - self.rect.y, self.pos[0] - self.rect.x)
+        self.img = pygame.transform.rotate(self.image, int(self.angle))
         self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y - 15))
 
     def update(self):
