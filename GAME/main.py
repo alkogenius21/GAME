@@ -3,6 +3,7 @@ from pygame.constants import DOUBLEBUF, FULLSCREEN, OPENGL
 import sys
 from player import *
 from video import start_video
+from level_test import *
 import size as s
 import pygame_menu
 import threading
@@ -167,44 +168,12 @@ class game:
         
         self.bgg = pg.image.load('assets/2.jpg')
         self.bgg = pg.transform.scale(self.bgg, s.screensize)
+        self.level = level1()
+        self.level.set_up()
 
         pg.display.set_caption('Revenge alpha')
         pg.mixer.music.load('assets/3.mp3')
-        pg.mixer.music.play(5)
-        
-        self.all_sprites = pg.sprite.Group()
-        self.play = Player()
-        self.all_sprites.add(self.play)
-
-
-        level = [
-            "WWWWWWWWWWWWWWWWWWWWW",
-            "W                   W",
-            "W         WWWWWW    W",
-            "W   WWWW       W    W",
-            "W   W        WWWW   W",
-            "W WWW  WWWW         W",
-            "W   W     W W       W",
-            "W   W     W   WWW W W",
-            "W   WWW WWW   W W   W",
-            "W     W   W   W W   W",
-            "WWW   W   WWWWW W   W",
-            "W W      WW         W",
-            "W W   WWWW          W",
-            "W     W             W",
-            "WWWWWWWWWWWWWWW WWWWW",
-        ]
-
-        x = s.disp_width // 4
-        y = s.disp_height - 1000
-        for row in level:
-            for col in row:
-                if col == "W":
-                    Wall((x, y))
-                x += 52
-            y += 52
-            x = s.disp_width // 4
-
+        #pg.mixer.music.play(5)
         self.ev = True
         while self.ev:
             self.clock.tick(self.fps)
@@ -216,14 +185,10 @@ class game:
             key = pg.key.get_pressed()
             if key[pg.K_ESCAPE]:
                 self.pause.pause()
-            self.all_sprites.update()
             display.blit(self.bgg, (0, 0))
             pg.draw.rect(display, (247, 240, 22), (self.usr_x, self.usr_y, self.usr_width, self.usr_height))
-            #for wall in walls:
-                #pg.draw.rect((display), (255, 255, 255), wall.rect)
-            for wall in walls:
-                display.blit(wall.image, wall.rect)
-            self.all_sprites.draw(display)
+            self.level.motion()
+            self.level.update(display)
             pg.display.flip()
 
 if __name__ == '__main__':

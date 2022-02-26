@@ -2,27 +2,24 @@ import pygame
 import random
 from size import *
 import math
-
+from wall import lis
 WIDTH = disp_width
 HEIGHT = disp_height
-walls = []
+
 GREEN = (0, 255, 0)
 
-class Player(pygame.sprite.Sprite):
-
-    def __init__(self):
-
-        pygame.sprite.Sprite.__init__(self)
+class Player:
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
         self.image = pygame.image.load('assets/png2.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (40, 40))
-        self.rect = self.image.get_rect()
-        self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT - 100
-        self.speedx = 0
-
-
+        self.image = pygame.transform.scale(self.image, (52, 52))
+        self.rect = pygame.Rect(x, y, width, height)
+        self.speedx = 1
+        self.speedy = 1
     def keyboard(self):
-
         self.speedx = 0
         self.speedy = 0
         keystate = pygame.key.get_pressed()
@@ -34,43 +31,33 @@ class Player(pygame.sprite.Sprite):
             self.speedy = -6
         if keystate[pygame.K_s]:
             self.speedy = 6
-        self.rect.x += self.speedx
-        self.rect.y += self.speedy
 
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+    def move(self):
+        self.keyboard()
+        if self.speedx != 0:
+            self.move_on(self.speedx, 0)
+        if self.speedy != 0:
+            self.move_on(0, self.speedy)       
 
+    def move_on(self, speedx, speedy):
+        if not (self.rect.x + speedx, self.rect.y) in lis:
+            self.rect.x += speedx
+            print(self.rect.x, self.rect.y)
+        if not (self.rect.x, self.rect.y + speedy) in lis:
+            self.rect.y += speedy
+            print(self.rect.x, self.rect.y)
 
-        for wall in walls:
-            if self.rect.colliderect(wall.rect):
-                if self.rect.right > 0:
-                    self.rect.right = wall.rect.left
-                if self.rect.left < 0:
-                    self.rect.left = wall.rect.right
-                if self.speedy > 0:
-                    self.rect.bottom = wall.rect.top
-                if self.speedy < 0:
-                    self.rect.top = wall.rect.bottom
-
+        self.rect.x += speedx
+        self.rect.y += speedy
 
     def rotate(self):
-
-        self.position = pygame.mouse.get_pos()
-        self.angle = math.atan2(self.position[1] - (self.rect.bottom + 40), self.position[0] + (self.rect.centerx + 50))
-        self.rect = pygame.transform.rotate(self.image, 360 - self.angle * 57.9)
+        self.pos = pygame.mouse.get_pos()
+        self.angle = 720-math.atan2(self.pos[1]-512,self.pos[0]-334) * 180 / math.pi
+        self.img = pygame.transform.rotate(self.image, self.angle)
+        self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y - 15))
 
     def update(self):
 
-        self.keyboard()
-
-class Wall:
-    def __init__(self, pos):
-        walls.append(self)
-        self.image = pygame.image.load('assets/wall.png')
-        self.image = pygame.transform.scale(self.image, (52, 52))
-        #self.rect = pygame.Rect(pos[0], pos[1], 52, 52)
-        self.rect = self.image.get_rect()
-        self.rect.centerx = pos[0]
-        self.rect.bottom = pos[1]
+        self.rotate()
+        self.move()
+        self.rotate()

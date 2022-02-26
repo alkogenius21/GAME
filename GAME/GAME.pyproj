@@ -23,7 +23,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AnimEngine.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="bullet.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GAME.py" />
+    <Compile Include="level_test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.py">
       <SubType>Code</SubType>
     </Compile>
@@ -35,10 +44,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="size.py" />
-    <Compile Include="test_rotate.py">
+    <Compile Include="video.py" />
+    <Compile Include="wall.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="video.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

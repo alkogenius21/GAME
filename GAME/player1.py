@@ -65,28 +65,28 @@ class PlayerBullet:
 class Wall:
     def __init__(self, pos):
         walls.append(self)
-        self.rect = pygame.Rect(pos[0], pos[1], 90, 90)
+        self.rect = pygame.Rect(pos[0], pos[1], 100, 100)
 
 player = Player(640, 384, 30, 30)
 player_bullet = []
 walls = []
 
 level = [
-"WWWWWWWWWWWWWWWWWWWW",
-"W                  W",
-"W         WWWWWW   W",
-"W   WWWW       W   W",
-"W   W        WWWW  W",
-"W WWW  WWWW        W",
-"W   W     W W      W",
-"W   W     W   WWW WW",
-"W   WWW WWW   W W  W",
-"W     W   W   W W  W",
-"WWW   W   WWWWW W  W",
-"W W      WW        W",
-"W W   WWWW   WWW   W",
-"W     W        W   W",
-"WWWWWWWWWWWWWW WWWWW",
+"WWWWWWWWWWWWWWWWWWWWWWWWWW",
+"W                        W",
+"W         WWWWWW     WWW W",
+"W   WWWW       W    W W  W",
+"W   W        WWWW        W",
+"W WWW  WWWW              W",
+"W   W     W W            W",
+"W   W     W   WWW       WW",
+"W   WWW WWW   W W        W",
+"W     W   W   W W        W",
+"WWW   W   WWWWW W        W",
+"W W      WW              W",
+"W W   WWWW   WWW         W",
+"W     W        W         W",
+"WWWWWWWWWWWWWW  WWWWWWWWWW",
 ]
 
 x = y = 0
@@ -97,6 +97,9 @@ for row in level:
         x += 90
     y += 90
     x=0
+
+image = pygame.image.load('assets/wall.png')
+image = pygame.transform.scale(image, (90, 90))
 while True:
     pressed_key = pygame.key.get_pressed()
     pressed_mouse = pygame.mouse.get_pressed()
@@ -142,9 +145,17 @@ while True:
     display.blit(player.img, player.rect1)
 
     for wall in walls:
+        display.blit(image, wall.rect)
         pygame.draw.rect((display), (255, 255, 255), wall.rect)
+
     for bullet in player_bullet:
         bullet.main(display)
 
     clock.tick(60)
     pygame.display.update()
+
+    a = '1'
+    b = '2'
+
+    if a not(b):
+        print(a)
