@@ -2,7 +2,7 @@ import pygame
 import random
 from size import *
 import math
-from wall import lis
+from wall import walls
 from bullet import Bullet
 import time
 
@@ -18,7 +18,7 @@ class Player:
         self.width = width
         self.height = height
         self.image = pygame.image.load('assets/png2.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (52, 52))
+        self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = pygame.Rect(x, y, width, height)
         self.speedx = 1
         self.speedy = 1
@@ -30,13 +30,13 @@ class Player:
         keystate = pygame.key.get_pressed()
 
         if keystate[pygame.K_a]:
-            self.speedx = -6
+            self.speedx = -10
         if keystate[pygame.K_d]:
-            self.speedx = 6
+            self.speedx = 10
         if keystate[pygame.K_w]:
-            self.speedy = -6
+            self.speedy = -10
         if keystate[pygame.K_s]:
-            self.speedy = 6
+            self.speedy = 10
 
     def move(self):
         self.keyboard()
@@ -46,15 +46,21 @@ class Player:
             self.move_on(0, self.speedy)       
 
     def move_on(self, speedx, speedy):
-        if not (self.rect.x + speedx, self.rect.y) in lis:
-            self.rect.x += speedx
-
-        if not (self.rect.x, self.rect.y + speedy) in lis:
-            self.rect.y += speedy
-
 
         self.rect.x += speedx
         self.rect.y += speedy
+
+        for wall in walls:
+            if self.rect.colliderect(wall):
+                if speedy < 0:
+                    self.rect.top = wall.bottom
+                if speedy > 0:
+                    self.rect.bottom = wall.top
+
+                if speedx > 0:
+                    self.rect.right = wall.left
+                if speedx < 0:
+                    self.rect.left = wall.right
 
     def rotate(self):
         self.pos = pygame.mouse.get_pos()
@@ -67,7 +73,6 @@ class Player:
     def set_shoot(self):
         button = pygame.mouse.get_pressed()
         if button[0]:
-            time.sleep(0.05)
             player_bullet.append(Bullet(self.rect.x + 15, self.rect.y - 15, self.pos[0], self.pos[1]))
 
     def update(self):
