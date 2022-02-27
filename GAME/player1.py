@@ -7,6 +7,7 @@ pygame.init()
 display = pygame.display.set_mode((1024,768))
 clock = pygame.time.Clock()
 
+
 class Player:
     def __init__(self, x, y, width, height):
         self.x = x
@@ -16,6 +17,7 @@ class Player:
         self.image = pygame.image.load('assets/png2.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = pygame.Rect(x, y, width, height)
+        
 
     def move(self, x ,y):
         if x != 0:
@@ -41,9 +43,12 @@ class Player:
 
     def rotate(self):
         pos = pygame.mouse.get_pos()
-        angle = 720-math.atan2(pos[1]-512,pos[0]-334)*180/math.pi
+        #self.cursor_rect = pygame.Rect()
+        self.dX = pos[0] - self.rect.x + 15
+        self.dY = pos[1] - self.rect.y - 15
+        angle = (-math.atan2(self.dY, self.dX)) * 180 / 3.14159265
         self.img = pygame.transform.rotate(self.image, angle)
-        self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y - 15))
+        self.rect1 = self.img.get_rect(center=(self.rect.x + 15, self.rect.y + 15))
 
 
 class PlayerBullet:
@@ -112,7 +117,7 @@ while True:
         # if pressed_mouse[0]:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                player_bullet.append(PlayerBullet(player.rect.x + 15, player.rect.y - 15, mouse_x, mouse_y))
+                player_bullet.append(PlayerBullet(player.rect.x + 15, player.rect.y + 15, mouse_x, mouse_y))
 
     player.rotate()
     if pressed_key[ord ('w')]:
@@ -153,9 +158,3 @@ while True:
 
     clock.tick(60)
     pygame.display.update()
-
-    a = '1'
-    b = '2'
-
-    if a not(b):
-        print(a)

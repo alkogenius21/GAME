@@ -4,6 +4,8 @@ from size import *
 import math
 from wall import lis
 from bullet import Bullet
+import time
+
 WIDTH = disp_width
 HEIGHT = disp_height
 player_bullet = []
@@ -56,13 +58,16 @@ class Player:
 
     def rotate(self):
         self.pos = pygame.mouse.get_pos()
-        self.angle = (180 / math.pi) * -math.atan2(self.pos[1] - self.rect.y, self.pos[0] - self.rect.x)
+        self.dX = self.pos[0] - self.rect.x + 15
+        self.dY = self.pos[1] - self.rect.y - 15
+        self.angle = (-math.atan2(self.dY, self.dX)) * 180 / 3.14159265
         self.img = pygame.transform.rotate(self.image, int(self.angle))
         self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y - 15))
 
     def set_shoot(self):
         button = pygame.mouse.get_pressed()
         if button[0]:
+            time.sleep(0.05)
             player_bullet.append(Bullet(self.rect.x + 15, self.rect.y - 15, self.pos[0], self.pos[1]))
 
     def update(self):

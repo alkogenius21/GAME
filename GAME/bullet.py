@@ -6,7 +6,7 @@ class Bullet:
         self.y = y
         self.mouse_x = mouse_x
         self.mouse_y = mouse_y
-        self.speed = 16
+        self.speed = 10
         self.angle = math.atan2(y-mouse_y, x-mouse_x)
         self.x_vel = math.cos(self.angle) * self.speed
         self.y_vel = math.sin(self.angle) * self.speed
