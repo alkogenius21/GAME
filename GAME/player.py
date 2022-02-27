@@ -3,9 +3,10 @@ import random
 from size import *
 import math
 from wall import lis
+from bullet import Bullet
 WIDTH = disp_width
 HEIGHT = disp_height
-
+player_bullet = []
 GREEN = (0, 255, 0)
 
 class Player:
@@ -20,9 +21,12 @@ class Player:
         self.speedx = 1
         self.speedy = 1
     def keyboard(self):
+
         self.speedx = 0
         self.speedy = 0
+
         keystate = pygame.key.get_pressed()
+
         if keystate[pygame.K_a]:
             self.speedx = -6
         if keystate[pygame.K_d]:
@@ -42,10 +46,10 @@ class Player:
     def move_on(self, speedx, speedy):
         if not (self.rect.x + speedx, self.rect.y) in lis:
             self.rect.x += speedx
-            print(self.rect.x, self.rect.y)
+
         if not (self.rect.x, self.rect.y + speedy) in lis:
             self.rect.y += speedy
-            print(self.rect.x, self.rect.y)
+
 
         self.rect.x += speedx
         self.rect.y += speedy
@@ -56,8 +60,16 @@ class Player:
         self.img = pygame.transform.rotate(self.image, int(self.angle))
         self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y - 15))
 
-    def update(self):
+    def set_shoot(self):
+        button = pygame.mouse.get_pressed()
+        if button[0]:
+            player_bullet.append(Bullet(self.rect.x + 15, self.rect.y - 15, self.pos[0], self.pos[1]))
 
+    def update(self):
+        self.set_shoot()
         self.rotate()
+        self.set_shoot()
         self.move()
+        self.set_shoot()
         self.rotate()
+        self.set_shoot()

@@ -1,7 +1,6 @@
 import pygame as pg
 from pygame.constants import DOUBLEBUF, FULLSCREEN, OPENGL
 import sys
-from player import *
 from video import start_video
 from level_test import *
 import size as s

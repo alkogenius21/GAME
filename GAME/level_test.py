@@ -3,8 +3,7 @@ from wall import *
 from player import Player
 texture = 'assets/wall.png'
 import pygame
-bullet = list()
-from bullet import *
+from player import player_bullet
 level = [
             "WWWWWWWWWWWWWWWWWWWWW",
             "W                   W",
@@ -47,9 +46,11 @@ class level1:
     def update(self, display):
         for wall in walls:
                 display.blit(self.image, wall.rect)
-                
+        for bullet in player_bullet:
+                bullet.main(display)        
         self.player.rotate()
         display.blit(self.player.img, self.player.rect1)
 
     def motion(self):
+
         self.player.update()
