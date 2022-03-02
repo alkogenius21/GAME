@@ -14,5 +14,8 @@ class start_video:
         self.clip = VideoFileClip(self.vfile).resize(screensize)
         self.clip.preview()
 
+    def stop(self):
+        self.clip.close()
+
     def __del__(self):
         print()

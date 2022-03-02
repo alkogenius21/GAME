@@ -29,14 +29,10 @@
     <Compile Include="bullet.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GAME.py" />
     <Compile Include="level_test.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="main.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="main_menu.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="player.py" />
