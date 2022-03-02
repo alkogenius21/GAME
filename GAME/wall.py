@@ -3,10 +3,11 @@ import pygame
 walls = list()
 lis = []
 
-class Wall:
-    def __init__(self, pos):
-        walls.append(self)
-        self.rect = pygame.Rect(pos[0], pos[1], 92, 92)
-        self.rect.centerx = pos[0]
-        self.rect.bottom = pos[1]
-
+class Wall(pygame.sprite.Sprite):
+    def __init__(self, texture, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(texture)
+        self.image = pygame.transform.scale(self.image, (110, 110))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y

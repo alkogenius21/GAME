@@ -6,6 +6,9 @@ from wall import walls
 from bullet import Bullet
 import time
 
+
+
+
 WIDTH = disp_width
 HEIGHT = disp_height
 player_bullet = []
@@ -30,13 +33,13 @@ class Player:
         keystate = pygame.key.get_pressed()
 
         if keystate[pygame.K_a]:
-            self.speedx = -10
+            self.speedx = -4
         if keystate[pygame.K_d]:
-            self.speedx = 10
+            self.speedx = 4
         if keystate[pygame.K_w]:
-            self.speedy = -10
+            self.speedy = -4
         if keystate[pygame.K_s]:
-            self.speedy = 10
+            self.speedy = 4
 
     def move(self):
         self.keyboard()
@@ -53,13 +56,13 @@ class Player:
         for wall in walls:
             if self.rect.colliderect(wall):
                 if speedy < 0:
-                    self.rect.top = wall.bottom
+                    self.rect.top = wall.rect.bottom
                 if speedy > 0:
-                    self.rect.bottom = wall.top
+                    self.rect.bottom = wall.rect.top
                 if speedx > 0:
-                    self.rect.right = wall.left
+                    self.rect.right = wall.rect.left
                 if speedx < 0:
-                    self.rect.left = wall.right
+                    self.rect.left = wall.rect.right
 
 
     def rotate(self):
@@ -74,6 +77,7 @@ class Player:
         button = pygame.mouse.get_pressed()
         if button[0]:
             player_bullet.append(Bullet(self.rect.x + 15, self.rect.y + 15, self.pos[0], self.pos[1]))
+
 
     def update(self):
         self.set_shoot()

@@ -1,7 +1,7 @@
 ﻿import pygame
 import sys
 import math
-
+from camera import *
 pygame.init()
 
 display = pygame.display.set_mode((1024,768))
@@ -48,7 +48,7 @@ class Player:
         self.dY = pos[1] - self.rect.y - 15
         angle = (-math.atan2(self.dY, self.dX)) * 180 / 3.14159265
         self.img = pygame.transform.rotate(self.image, angle)
-        self.rect1 = self.img.get_rect(center=(self.rect.x + 15, self.rect.y + 15))
+        self.rect1 = self.img.get_rect(center=(self.rect.x + 15, self.rect.y + 20))
 
 
 class PlayerBullet:
