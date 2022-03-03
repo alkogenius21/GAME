@@ -32,6 +32,9 @@
     <Compile Include="camera.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="car_race\gradient.py" />
+    <Compile Include="car_race\main_race.py" />
+    <Compile Include="car_race\particles.py" />
     <Compile Include="level_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -47,6 +50,44 @@
     <Compile Include="wall.py">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="car_race\" />
+    <Folder Include="car_race\data\" />
+    <Folder Include="car_race\font\" />
+    <Folder Include="car_race\imgs\" />
+    <Folder Include="car_race\laser_imgs\" />
+    <Folder Include="car_race\sounds\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="car_race\data\coins.dat" />
+    <Content Include="car_race\data\highscore.dat" />
+    <Content Include="car_race\data\speed.dat" />
+    <Content Include="car_race\font\EvilEmpire-4BBVK.ttf" />
+    <Content Include="car_race\font\PixelPowerline-11Mg.ttf" />
+    <Content Include="car_race\imgs\coin.png" />
+    <Content Include="car_race\imgs\grass.png" />
+    <Content Include="car_race\imgs\heart.png" />
+    <Content Include="car_race\imgs\icon-tyre.png" />
+    <Content Include="car_race\imgs\road2.jpg" />
+    <Content Include="car_race\imgs\shop-gradient.png" />
+    <Content Include="car_race\laser_imgs\tile000.png" />
+    <Content Include="car_race\laser_imgs\tile001.png" />
+    <Content Include="car_race\laser_imgs\tile0010.png" />
+    <Content Include="car_race\laser_imgs\tile0011.png" />
+    <Content Include="car_race\laser_imgs\tile002.png" />
+    <Content Include="car_race\laser_imgs\tile003.png" />
+    <Content Include="car_race\laser_imgs\tile004.png" />
+    <Content Include="car_race\laser_imgs\tile005.png" />
+    <Content Include="car_race\laser_imgs\tile006.png" />
+    <Content Include="car_race\laser_imgs\tile007.png" />
+    <Content Include="car_race\laser_imgs\tile008.png" />
+    <Content Include="car_race\laser_imgs\tile009.png" />
+    <Content Include="car_race\sounds\car-music-other.mp3" />
+    <Content Include="car_race\sounds\error.ogg" />
+    <Content Include="car_race\sounds\hit.wav" />
+    <Content Include="car_race\sounds\horn.wav" />
+    <Content Include="car_race\sounds\music.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
