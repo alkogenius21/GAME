@@ -17,7 +17,7 @@ GAME_NAME = "Car Dash"
 
 # Fonts
 FONT = pygame.font.SysFont('comicsans', 40)
-TITLE_FONT = pygame.font.Font(f'{path}/font/PixelPowerline-11Mg.ttf', 80)
+TITLE_FONT = pygame.font.Font(f'{path}/car_race/font/PixelPowerline-11Mg.ttf', 80)
 
 # Events
 ADD_RACER = pygame.USEREVENT
@@ -29,7 +29,7 @@ class Player:
     def __init__(self, x, y, w, h, color):
         self.x = x
         self.y = y - 50
-        self.img = pygame.transform.scale(pygame.image.load(f'{path}/car_imgs/tile000.png'), (w, h))
+        self.img = pygame.transform.scale(pygame.image.load(f'{path}/car_race/car_imgs/tile000.png'), (w, h))
         self.rect = pygame.Rect(x, y - 50, w, h)
         self.color = color
         self.health = 3
@@ -126,11 +126,11 @@ class Road:
 
 class Racer:
     def __init__(self):
-        self.cars_list = [pygame.transform.scale(pygame.image.load(f'{path}/car_imgs/tile001.png'),
+        self.cars_list = [pygame.transform.scale(pygame.image.load(f'{path}/car_race/car_imgs/tile001.png'),
                                                  (player.rect.width, player.rect.height)).convert_alpha(),
-                          pygame.transform.scale(pygame.image.load(f'{path}/car_imgs/tile002.png'),
+                          pygame.transform.scale(pygame.image.load(f'{path}/car_race/car_imgs/tile002.png'),
                                                  (player.rect.width, player.rect.height)).convert_alpha(),
-                          pygame.transform.scale(pygame.image.load(f'{path}/car_imgs/tile003.png'),
+                          pygame.transform.scale(pygame.image.load(f'{path}/car_race/car_imgs/tile003.png'),
                                                  (player.rect.width, player.rect.height)).convert_alpha()]
         # self.flipped_cars_list = []
 
@@ -275,14 +275,14 @@ win = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 pygame.display.set_caption(f'{GAME_NAME} FPS: {round(clock.get_fps(), 1)}')
 
-ICON_IMG = pygame.image.load(f'{path}/imgs/icon-tyre.png').convert_alpha()
+ICON_IMG = pygame.image.load(f'{path}/car_race/imgs/icon-tyre.png').convert_alpha()
 pygame.display.set_icon(ICON_IMG)
 
 # Images
-BG_IMG = pygame.transform.scale(pygame.image.load(f'{path}/imgs/grass.png'), (WIDTH, HEIGHT)).convert_alpha()
-ROAD_IMG = pygame.transform.scale(pygame.image.load(f'{path}/imgs/road2.jpg'), (680, HEIGHT)).convert_alpha()
-COIN_IMG = pygame.transform.scale(pygame.image.load(f'{path}/imgs/coin.png'), (30, 30)).convert_alpha()
-HEART_IMG = pygame.transform.scale(pygame.image.load(f'{path}/imgs/heart.png'), (50, 50)).convert_alpha()
+BG_IMG = pygame.transform.scale(pygame.image.load(f'{path}/car_race/imgs/grass.png'), (WIDTH, HEIGHT)).convert_alpha()
+ROAD_IMG = pygame.transform.scale(pygame.image.load(f'{path}/car_race/imgs/road2.jpg'), (680, HEIGHT)).convert_alpha()
+COIN_IMG = pygame.transform.scale(pygame.image.load(f'{path}/car_race/imgs/coin.png'), (30, 30)).convert_alpha()
+HEART_IMG = pygame.transform.scale(pygame.image.load(f'{path}/car_race/imgs/heart.png'), (50, 50)).convert_alpha()
 
 # Game Variables
 move = None
@@ -292,12 +292,10 @@ show_laser = False
 game_paused = False
 
 # Sounds
-COIN_SOUND = mixer.Sound(f'{path}/sounds/coin.wav')
-HIT_SOUND = mixer.Sound(f'{path}/sounds/hit.wav')
-HORN_SOUND = mixer.Sound(f'{path}/sounds/horn.wav')
-LASER_SOUND = mixer.Sound(f'{path}/sounds/laser-sound(un).wav')
-BG_CAR_SOUND = mixer.Sound(f'{path}/sounds/car-music-other.mp3')
-mixer.music.load(f'{path}/sounds/music.wav')
+HIT_SOUND = mixer.Sound(f'{path}/car_race/sounds/hit.wav')
+HORN_SOUND = mixer.Sound(f'{path}/car_race/sounds/horn.wav')
+BG_CAR_SOUND = mixer.Sound(f'{path}/car_race/sounds/car-music-other.mp3')
+mixer.music.load(f'{path}/car_race/sounds/music.wav')
 
 # Sprites
 race_track = Road(600, 0, 680, HEIGHT, colors.slate_gray)
