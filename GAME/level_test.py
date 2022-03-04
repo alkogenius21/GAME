@@ -25,6 +25,13 @@ level = [
             "W W      WW         W",
             "W W   WWWW          W",
             "W     W             W",
+            "W                   W",
+            "W     WWWWWWWW      W",
+            "W     W      W      W",
+            "W     W      W      W",
+            "W     WWWWW WW      W",
+            "W                   W",
+            "W                   W",
             "WWWWWWWWWWWWWWW WWWWW",            
         ]
 

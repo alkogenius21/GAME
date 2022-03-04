@@ -13,8 +13,8 @@ class Camera(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
     def center_target_camera(self, target):
-        self.offset.x = target.rect.centerx - self.half_w
-        self.offset.y = target.rect.centery - self.half_h
+        self.offset.x = target.rect.x - self.half_w
+        self.offset.y = target.rect.y - self.half_h
 
     def custom_draw(self, player):
         self.center_target_camera(player)
