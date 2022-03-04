@@ -14,8 +14,9 @@ HEIGHT = disp_height
 player_bullet = []
 GREEN = (0, 255, 0)
 
-class Player:
-    def __init__(self, x, y, width, height):
+class Player(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height, group):
+        super().__init__(group)
         self.x = x
         self.y = y
         self.width = width

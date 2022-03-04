@@ -4,10 +4,10 @@ walls = list()
 lis = []
 
 class Wall(pygame.sprite.Sprite):
-    def __init__(self, texture, x, y):
-        pygame.sprite.Sprite.__init__(self)
+    def __init__(self, texture, x, y, group):
+        super().__init__(group)
         self.image = pygame.image.load(texture)
-        self.image = pygame.transform.scale(self.image, (110, 110))
+        self.image = pygame.transform.scale(self.image, (200, 200))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y

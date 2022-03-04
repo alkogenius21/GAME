@@ -1,30 +1,24 @@
 import pygame
 from size import screensize
+from wall import *
 SIZE = screensize
 
 
-class Camera:
-    def __init__(self, camera_func, width, height):
-        self.camera_func = camera_func
-        self.state = pygame.Rect(0, 0, width, height)
+class Camera(pygame.sprite.Group):
+    def __init__(self):
+        super().__init__()
+        self.display_surface = pygame.display.get_surface()
+        self.half_w = self.display_surface.get_size()[0] // 2
+        self.half_h = self.display_surface.get_size()[1] // 2
+        self.offset = pygame.math.Vector2()
 
-    def apply(self, target):
-        return target.rect.move(self.state.topleft)
+    def center_target_camera(self, target):
+        self.offset.x = target.rect.centerx - self.half_w
+        self.offset.y = target.rect.centery - self.half_h
 
-    def update(self, target):
-        self.state = self.camera_func(self.state, target.rect)
+    def custom_draw(self, player):
+        self.center_target_camera(player)
 
-
-def camera_func(camera, target_rect):
-    l = -target_rect.x + SIZE[0]/2
-    t = -target_rect.y + SIZE[1]/2
-    w, h = camera.width, camera.height
-
-    l = min(0, l)
-    l = max(-(camera.width-SIZE[0]), l)
-    t = max(-(camera.height-SIZE[1]), t)
-    t = min(0, t)
-
-    return pygame.Rect(l, t, w, h)
-
-
+        for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
+            offset_pos = sprite.rect.topleft - self.offset
+            self.display_surface.blit(sprite.image, offset_pos)

@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1be35b09-ac1e-44eb-a21b-aafc9cba232b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>player1.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

@@ -12,6 +12,8 @@ class Player:
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
+        self.cam_x = 0
+        self.cam_y = 0
         self.width = width
         self.height = height
         self.image = pygame.image.load('assets/png2.png').convert_alpha()
@@ -26,19 +28,27 @@ class Player:
             self.move_on(0, y)       
 
     def move_on(self, x, y):
-        self.rect.x += x
-        self.rect.y += y
+        self.cam_x -= x * 2
+        lp = self.cam_x
+        self.cam_y -= y * 2
+        pl = self.cam_y
+        #self.rect.x += x
+        #self.rect.y += y
 
         for wall in walls:
             if self.rect.colliderect(wall.rect):
                 if x > 0:
                     self.rect.right = wall.rect.left
+                    self.cam_x = lp
                 if x < 0:
                     self.rect.left = wall.rect.right
+                    self.cam_x = lp
                 if y > 0:
                     self.rect.bottom = wall.rect.top
+                    self.cam_y = pl
                 if y < 0:
                     self.rect.top = wall.rect.bottom
+                    self.cam_y = pl
 
 
     def rotate(self):
@@ -47,6 +57,7 @@ class Player:
         self.dX = pos[0] - self.rect.x + 15
         self.dY = pos[1] - self.rect.y - 15
         angle = (-math.atan2(self.dY, self.dX)) * 180 / 3.14159265
+        print(angle)
         self.img = pygame.transform.rotate(self.image, angle)
         self.rect1 = self.img.get_rect(center=(self.rect.x + 15, self.rect.y + 20))
 
@@ -70,9 +81,9 @@ class PlayerBullet:
 class Wall:
     def __init__(self, pos):
         walls.append(self)
-        self.rect = pygame.Rect(pos[0], pos[1], 100, 100)
+        self.rect = pygame.Rect(pos[0], pos[1], 72, 72)
 
-player = Player(640, 384, 30, 30)
+player = Player(1024//2, 768//2, 30, 30)
 player_bullet = []
 walls = []
 
@@ -99,12 +110,12 @@ for row in level:
     for col in row:
         if col == "W":
             Wall((x,y))
-        x += 90
-    y += 90
+        x += 72
+    y += 72
     x=0
 
 image = pygame.image.load('assets/wall.png')
-image = pygame.transform.scale(image, (90, 90))
+image = pygame.transform.scale(image, (72, 72))
 while True:
     pressed_key = pygame.key.get_pressed()
     pressed_mouse = pygame.mouse.get_pressed()
@@ -147,15 +158,15 @@ while True:
 
     screen.fill((0, 0, 0))
 
-    screen.blit(player.img, player.rect1)
-
+    player.rotate()
     for wall in walls:
         screen.blit(image, wall.rect)
-    screen.blit(player.img, player.rect1)
     for bullet in player_bullet:
         bullet.main(screen)
-
-    display.blit(screen, (0 - 600, 0))
-
+    display.fill((0, 0, 0))
+    player.rotate()
+    screen.blit(player.img, player.rect1)
+    display.blit(screen, (player.cam_x, player.cam_y))
+    #display.blit(player.img, player.rect1)
     clock.tick(60)
     pygame.display.update()

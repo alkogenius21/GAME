@@ -35,46 +35,36 @@ class level1:
         self.x = 0
         self.y = 0
         self.x1 = self.y1 = 0
-        self.image = pygame.image.load(texture)
-        self.image = pygame.transform.scale(self.image, (110, 110))
-        self.wall = pygame.image.load('assets/floor.png')
-        self.wall = pygame.transform.scale(self.wall, (110, 110))
-        self.player = Player(120, 120, 35, 35)
+        self.camera_group = Camera()
+        self.player = Player(120, 120, 35, 35, self.camera_group)
         self.story  = start_video('assets/intro.mp4')
         self.num = 0
-        total_level_width = len(level[0])*110
-        total_level_height = len(level)*110
-        self.camera = Camera(camera_func, total_level_width, total_level_height)
 
     def set_up(self):
         for row in level:
             for col in row:
                 if col == "W":
-                    walls1.add(Wall('assets/wall.png', self.x, self.y))
-                    walls.append(Wall('assets/wall.png', self.x, self.y))
-                self.x += 110
-            self.y += 110
+                    walls1.add(Wall('assets/wall.png', self.x, self.y, self.camera_group))
+                    walls.append(Wall('assets/wall.png', self.x, self.y, self.camera_group))
+                self.x += 200
+            self.y += 200
             self.x = 0
         for row1 in level:
             for col1 in row1:
                 if col1 == ' ':
-                    walls1.add(Wall('assets/floor.png', self.x1, self.y1))
-                    self.x1 += 110
+                    #walls1.add(Wall('assets/floor.png', self.x1, self.y1, self.camera_group))
+                    self.x1 += 200
                 else:
-                    self.x1 += 110
-            self.y1 += 110
+                    self.x1 += 200
+            self.y1 += 200
             self.x1 = 0
     def update(self, display):
-        self.camera.update(self.player)
-        for e in walls1:
-            display.blit(e.image, self.camera.apply(e))
-            #walls.append(self.camera.apply(e))
-
-
-        #self.walls1.draw(display)
+        #walls1.draw(display)
+        self.camera_group.update()
+        self.camera_group.custom_draw(self.player)
         for bullet in player_bullet:
                 bullet.main(display)
-        display.blit(self.player.img, self.player.rect1)
+        #display.blit(self.player.img, self.player.rect1)
                 
 
     def motion(self):
