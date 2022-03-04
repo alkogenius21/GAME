@@ -1,8 +1,5 @@
 import pygame
-from size import screensize
-from wall import *
-SIZE = screensize
-
+from pygame import display
 
 class Camera(pygame.sprite.Group):
     def __init__(self):
@@ -13,12 +10,13 @@ class Camera(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
     def center_target_camera(self, target):
-        self.offset.x = target.rect.x - self.half_w
-        self.offset.y = target.rect.y - self.half_h
+        self.offset.x = target.rect1.x - self.half_w
+        self.offset.y = target.rect1.y - self.half_h
 
     def custom_draw(self, player):
+        player.rotate()
         self.center_target_camera(player)
-
+        #self.display_surface.blit(player.image, player.rect)
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)

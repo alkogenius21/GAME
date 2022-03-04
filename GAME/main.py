@@ -188,7 +188,7 @@ class game:
             #pg.draw.rect(display, (247, 240, 22), (self.usr_x, self.usr_y, self.usr_width, self.usr_height))
             self.level.motion()
             self.level.update(display)
-            pg.display.flip()
+            pg.display.update()
 
 if __name__ == '__main__':
 

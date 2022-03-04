@@ -21,9 +21,9 @@ class Player(pygame.sprite.Sprite):
         self.y = y
         self.width = width
         self.height = height
-        self.image = pygame.image.load('assets/png2.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (30, 30))
-        self.rect = pygame.Rect(x, y, width, height)
+        self.img = pygame.image.load('assets/png2.png').convert_alpha()
+        self.img = pygame.transform.scale(self.img, (30, 30))
+        self.rect1 = pygame.Rect(x, y, width, height)
         self.speedx = 1
         self.speedy = 1
     def keyboard(self):
@@ -51,28 +51,28 @@ class Player(pygame.sprite.Sprite):
 
     def move_on(self, speedx, speedy):
 
-        self.rect.x += speedx
-        self.rect.y += speedy
+        self.rect1.x += speedx
+        self.rect1.y += speedy
 
         for wall in walls:
-            if self.rect.colliderect(wall):
+            if self.rect1.colliderect(wall):
                 if speedy < 0:
-                    self.rect.top = wall.rect.bottom
+                    self.rect1.top = wall.rect.bottom
                 if speedy > 0:
-                    self.rect.bottom = wall.rect.top
+                    self.rect1.bottom = wall.rect.top
                 if speedx > 0:
-                    self.rect.right = wall.rect.left
+                    self.rect1.right = wall.rect.left
                 if speedx < 0:
-                    self.rect.left = wall.rect.right
+                    self.rect1.left = wall.rect.right
 
 
     def rotate(self):
         self.pos = pygame.mouse.get_pos()
-        self.dX = self.pos[0] - self.rect.x 
-        self.dY = self.pos[1] - self.rect.y
+        self.dX = self.pos[0] - self.rect1.x 
+        self.dY = self.pos[1] - self.rect1.y
         self.angle = (-math.atan2(self.dY, self.dX)) * 180 / 3.14159265
-        self.img = pygame.transform.rotate(self.image, int(self.angle))
-        self.rect1 = self.img.get_rect(center = (self.rect.x + 15, self.rect.y + 20))
+        self.image = pygame.transform.rotate(self.img, int(self.angle))
+        self.rect = self.image.get_rect(center = (self.rect1.x + 15, self.rect1.y + 20))
 
     def set_shoot(self):
         button = pygame.mouse.get_pressed()

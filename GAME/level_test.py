@@ -43,7 +43,7 @@ class level1:
         self.y = 0
         self.x1 = self.y1 = 0
         self.camera_group = Camera()
-        self.player = Player(120, 120, 35, 35, self.camera_group)
+        self.player = Player(0, 0, 35, 35, self.camera_group)
         self.story  = start_video('assets/intro.mp4')
         self.num = 0
 
