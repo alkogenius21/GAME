@@ -25,4 +25,6 @@ def camera_func(camera, target_rect):
     t = max(-(camera.height-SIZE[1]), t)
     t = min(0, t)
 
+    return pygame.Rect(l, t, w, h)
+
 

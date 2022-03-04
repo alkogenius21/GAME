@@ -6,7 +6,7 @@ pygame.init()
 
 display = pygame.display.set_mode((1024,768))
 clock = pygame.time.Clock()
-
+screen = pygame.Surface((1920, 1080))
 
 class Player:
     def __init__(self, x, y, width, height):
@@ -145,16 +145,17 @@ while True:
         #     for bullet in player_bullet:
         #         bullet.x += speed
 
-    display.fill((0, 0, 0))
+    screen.fill((0, 0, 0))
 
-    display.blit(player.img, player.rect1)
+    screen.blit(player.img, player.rect1)
 
     for wall in walls:
-        display.blit(image, wall.rect)
-        pygame.draw.rect((display), (255, 255, 255), wall.rect)
-
+        screen.blit(image, wall.rect)
+    screen.blit(player.img, player.rect1)
     for bullet in player_bullet:
-        bullet.main(display)
+        bullet.main(screen)
+
+    display.blit(screen, (0 - 600, 0))
 
     clock.tick(60)
     pygame.display.update()

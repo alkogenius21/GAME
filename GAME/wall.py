@@ -1,5 +1,5 @@
 import pygame
-
+walls1 = pygame.sprite.Group()
 walls = list()
 lis = []
 
