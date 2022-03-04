@@ -69,8 +69,8 @@ class level1:
         #walls1.draw(display)
         self.camera_group.update()
         self.camera_group.custom_draw(self.player)
-        for bullet in player_bullet:
-                bullet.main(display)
+        #for bullet in player_bullet:
+                #bullet.main(display)
         #display.blit(self.player.img, self.player.rect1)
                 
 
