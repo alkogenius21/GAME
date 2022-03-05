@@ -75,6 +75,7 @@ class Pause:
 
 class Menu:
 
+
     pg.mixer.init()
     pg.mixer.music.load('assets/2.mp3')
 
@@ -82,7 +83,7 @@ class Menu:
         pass
 
     def start_the_game(self):
-        self.start_game = game(0, 0)
+        self.start_game = Game()
         #self.start_game.run()
         self.p1 = threading.Thread(target=self.start_game.run())
         print(self.p1.is_alive())
@@ -145,21 +146,11 @@ class Menu:
         print()
 
       
-class game:
+class Game:
 
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.usr_width = 60
-        self.usr_height = 100
-        self.usr_x = s.disp_width // 3
-        self.usr_y = s.disp_height - self.usr_height - 100
+    def __init__(self):
         self.fps = 60
         self.pause = Pause()
-
-
-    def run(self):
-        
         pg.init()
         pg.mixer.init()
         pg.mouse.set_visible(True)
@@ -172,6 +163,8 @@ class game:
 
         pg.display.set_caption('Revenge alpha')
         pg.mixer.music.load('assets/3.mp3')
+
+    def run(self):
         #pg.mixer.music.play(5)
         self.ev = True
         while self.ev:
@@ -186,8 +179,8 @@ class game:
                 self.pause.pause()
             display.blit(self.bgg, (0, 0))
             #pg.draw.rect(display, (247, 240, 22), (self.usr_x, self.usr_y, self.usr_width, self.usr_height))
-            self.level.motion()
             self.level.update(display)
+            self.level.motion()
             pg.display.update()
 
 if __name__ == '__main__':
@@ -199,7 +192,10 @@ if __name__ == '__main__':
     del play
     #play1.play_vid()
     del play1
+    game = Game()
+    game.run()
 
-    menu = Menu()
-    menu.main_menu()
+    #menu = Menu()
+    #menu.main_menu()
+
     del menu

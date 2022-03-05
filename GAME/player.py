@@ -2,10 +2,8 @@ import pygame
 import random
 from size import *
 import math
-from wall import walls
 from bullet import Bullet
 import time
-
 
 
 
@@ -14,9 +12,8 @@ HEIGHT = disp_height
 player_bullet = []
 GREEN = (0, 255, 0)
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, group):
-        super().__init__(group)
+class Player:
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
         self.width = width
@@ -54,15 +51,16 @@ class Player(pygame.sprite.Sprite):
         self.rect1.x += speedx
         self.rect1.y += speedy
 
-        for wall in walls:
+    def check_collide(self, walls_list):
+        for wall in walls_list:
             if self.rect1.colliderect(wall):
-                if speedy < 0:
+                if self.speedy < 0:
                     self.rect1.top = wall.rect.bottom
-                if speedy > 0:
+                if self.speedy > 0:
                     self.rect1.bottom = wall.rect.top
-                if speedx > 0:
+                if self.speedx > 0:
                     self.rect1.right = wall.rect.left
-                if speedx < 0:
+                if self.speedx < 0:
                     self.rect1.left = wall.rect.right
 
 
@@ -80,13 +78,28 @@ class Player(pygame.sprite.Sprite):
             player_bullet.append(Bullet(self.rect.x + 15, self.rect.y + 15, self.pos[0], self.pos[1]))
 
 
-    def update(self):
-        self.set_shoot()
+    def update(self, walls_list):
+        self.check_collide(walls_list)
         self.move()
+        self.check_collide(walls_list)
+        self.set_shoot()
+        self.check_collide(walls_list)
+        self.move()
+        self.check_collide(walls_list)
         self.rotate()
-        self.set_shoot()
+        self.check_collide(walls_list)
         self.move()
+        self.check_collide(walls_list)
         self.set_shoot()
+        self.check_collide(walls_list)
         self.move()
+        self.check_collide(walls_list)
+        self.set_shoot()
+        self.check_collide(walls_list)
+        self.move()
+        self.check_collide(walls_list)
         self.rotate()
+        self.check_collide(walls_list)
+        self.move()
+        self.check_collide(walls_list)
         self.set_shoot()
