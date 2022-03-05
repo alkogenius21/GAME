@@ -14,16 +14,14 @@ level = [
             "W                       W",
             "W         WWWWWW        W",
             "W   WWWW       W        W",
-            "W   W        WWWW       W",
-            "W WWW  WWWW             W",
-            "W   W     W W           W",
-            "W   W     W   WWW W     W",
+            "W   W        WWWWWWW    W",
+            "W WWW  WWWW        W    W",
+            "W   W     W W      W    W",
+            "W   W     W   WWW WW    W",
             "W   WWW WWW   W W       W",
             "W     W   W   W W       W",
             "WWW   W   WWWWW W       W",
             "W W      WW             W",
-            "W W   WWWW              W",
-            "W     W                 W",
             "WWWWWWWWWWWWWWW WWWWWWWWW",            
         ]
 
@@ -31,15 +29,15 @@ level = [
 
 class level1:
     def __init__(self):
-        self.x = 0
-        self.y = 0
-        self.x1 = self.y1 = 0
+        self.x = 72
+        self.y = 72
+        self.x1 = self.y1 = 72
         self.player = Player(250, 250, 30, 30)
         self.story  = start_video('assets/intro.mp4')
         self.num = 0
     def set_up(self):
         set_up(level, self.x, self.y, walls1, walls_list, texture, 'W', 'wall')
-        self.x = self.y = 0
+        self.x = self.y = 72
         set_up(level, self.x, self.y, walls1, walls_list, texture_floor, ' ', 'floor')
     def update(self, display):
         self.player.rotate()

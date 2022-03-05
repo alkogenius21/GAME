@@ -18,7 +18,7 @@ def set_up(level, x, y, sprite_group, walls_list, texture, trigger, type_obj):
                     walls_list.append(Wall(texture, x, y))
                 x += 72
             y += 72
-            x = 0
+            x = 72
 
     if type_obj == 'floor':
          for row in level:
@@ -29,5 +29,5 @@ def set_up(level, x, y, sprite_group, walls_list, texture, trigger, type_obj):
                 else:
                     x += 72
             y += 72
-            x = 0
+            x = 72
 
