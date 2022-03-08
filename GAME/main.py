@@ -180,7 +180,8 @@ class Game:
             display.blit(self.bgg, (0, 0))
             #pg.draw.rect(display, (247, 240, 22), (self.usr_x, self.usr_y, self.usr_width, self.usr_height))
             self.level.update(display)
-            self.level.motion()
+            pg.sprite.groupcollide(self.level.bullet_group, self.level.walls1, False, True)
+            #self.level.motion()
             pg.display.update()
 
 if __name__ == '__main__':
@@ -198,4 +199,4 @@ if __name__ == '__main__':
     #menu = Menu()
     #menu.main_menu()
 
-    del menu
+    #del menu

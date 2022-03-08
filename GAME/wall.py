@@ -9,12 +9,13 @@ class Wall(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-def set_up(level, x, y, sprite_group, walls_list, texture, trigger, type_obj):
+def set_up(level, x, y, sprite_group, walls_list, texture, trigger, type_obj, all_group):
     if type_obj == 'wall':
         for row in level:
             for col in row:
                 if col == trigger:
                     sprite_group.add(Wall(texture, x, y))
+                    all_group.add(Wall(texture, x, y))
                     walls_list.append(Wall(texture, x, y))
                 x += 72
             y += 72
