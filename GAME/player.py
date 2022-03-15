@@ -39,20 +39,18 @@ class Player:
         if keystate[pygame.K_s]:
             self.speedy = 4
 
-    def move(self):
+    def move(self, walls_list):
         self.keyboard()
         if self.speedx != 0:
-            self.move_on(self.speedx, 0)
+            self.move_on(self.speedx, 0, walls_list)
         if self.speedy != 0:
-            self.move_on(0, self.speedy)       
+            self.move_on(0, self.speedy, walls_list)       
 
-    def move_on(self, speedx, speedy):
+    def move_on(self, speedx, speedy, walls_list):
 
         self.rect1.x += speedx
         self.rect1.y += speedy
 
-    def check_collide(self, walls_list, bullet_group, wall_group):
-        #pygame.sprite.groupcollide(bullet_group, wall_group, False, True)
         for wall in walls_list:
             if self.rect1.colliderect(wall):
                 if self.speedy < 0:
@@ -63,6 +61,19 @@ class Player:
                     self.rect1.right = wall.rect.left
                 if self.speedx < 0:
                     self.rect1.left = wall.rect.right
+
+    #def check_collide(self, walls_list, bullet_group, wall_group):
+    #    pygame.sprite.groupcollide(bullet_group, wall_group, False, True)
+    #    for wall in walls_list:
+    #        if self.rect1.colliderect(wall):
+    #            if self.speedy < 0:
+    #                self.rect1.top = wall.rect.bottom
+    #            if self.speedy > 0:
+    #                self.rect1.bottom = wall.rect.top
+    #            if self.speedx > 0:
+    #                self.rect1.right = wall.rect.left
+    #            if self.speedx < 0:
+    #                self.rect1.left = wall.rect.right
 
         
 
@@ -81,28 +92,17 @@ class Player:
         all_group.add(Bullet(self.rect.x + 15, self.rect.y + 15, self.pos1[0], self.pos1[1]))
 
 
-    def update(self, walls_list, wall_group, bullet_group):
-        self.check_collide(walls_list, wall_group, bullet_group)
-        self.move()
-        self.check_collide(walls_list, wall_group, bullet_group)
+    def update(self, walls_list):
+        
+        self.move(walls_list)
         #self.set_shoot(bullet_group)
-        self.check_collide(walls_list, wall_group, bullet_group)
-        self.move()
-        self.check_collide(walls_list, wall_group, bullet_group)
+        self.move(walls_list)
         self.rotate()
-        self.check_collide(walls_list, wall_group, bullet_group)
-        self.move()
-        self.check_collide(walls_list, wall_group, bullet_group)
+        self.move(walls_list)
         #self.set_shoot(bullet_group)
-        self.check_collide(walls_list, wall_group, bullet_group)
-        self.move()
-        self.check_collide(walls_list, wall_group, bullet_group)
+        self.move(walls_list)
         #self.set_shoot(bullet_group)
-        self.check_collide(walls_list, wall_group, bullet_group)
-        self.move()
-        self.check_collide(walls_list, wall_group, bullet_group)
+        self.move(walls_list)
         self.rotate()
-        self.check_collide(walls_list, wall_group, bullet_group)
-        self.move()
-        self.check_collide(walls_list, wall_group, bullet_group)
+        self.move(walls_list)
         #self.set_shoot(bullet_group)

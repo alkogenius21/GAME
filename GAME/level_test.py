@@ -40,6 +40,7 @@ class level1:
         self.num = 0
         self.walls1 = pygame.sprite.Group()
         self.bullet_group = pygame.sprite.Group()
+        self.all_group = pygame.sprite.Group()
     def set_up(self):
         set_up(level, self.x, self.y, self.walls1, walls_list, texture, 'W', 'wall', all_group)
         self.x = self.y = 72
@@ -49,20 +50,22 @@ class level1:
         button = pygame.mouse.get_pressed()
         self.player.rotate()
         #walls1.draw(display)
-        floor_group.draw(display)
+        #floor_group.draw(display)
         #self.player.check_collide(floor)
         #self.motion()
         #for bullet in player_bullet:
                 #bullet.main(display)
         display.blit(self.player.image, self.player.rect)
         if button[0]:
-            self.player.set_shoot(self.bullet_group, all_group)
-        all_group.draw(display)
+            self.player.set_shoot(self.bullet_group, self.all_group)
+        self.all_group.add(self.walls1)
+        self.all_group.draw(display)
         self.motion()
         all_group.update()
         pygame.sprite.groupcollide(self.walls1, self.bullet_group, False, True)
+        self.all_group.update()
         #self.bullet_group.draw(display)
         #self.bullet_group.update()
     def motion(self):
 
-        self.player.update(walls_list, self.walls1, self.bullet_group)
+        self.player.update(walls_list)

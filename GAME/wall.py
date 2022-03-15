@@ -15,7 +15,7 @@ def set_up(level, x, y, sprite_group, walls_list, texture, trigger, type_obj, al
             for col in row:
                 if col == trigger:
                     sprite_group.add(Wall(texture, x, y))
-                    all_group.add(Wall(texture, x, y))
+                    #all_group.add(Wall(texture, x, y))
                     walls_list.append(Wall(texture, x, y))
                 x += 72
             y += 72
