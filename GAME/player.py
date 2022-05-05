@@ -51,16 +51,16 @@ class Player:
         self.rect1.x += speedx
         self.rect1.y += speedy
 
-        for wall in walls_list:
-            if self.rect1.colliderect(wall):
-                if self.speedy < 0:
-                    self.rect1.top = wall.rect.bottom
-                if self.speedy > 0:
-                    self.rect1.bottom = wall.rect.top
-                if self.speedx > 0:
-                    self.rect1.right = wall.rect.left
-                if self.speedx < 0:
-                    self.rect1.left = wall.rect.right
+        #for wall in walls_list:
+        #    if self.rect1.colliderect(wall):
+        #        if self.speedy < 0:
+        #            self.rect1.top = wall.rect.bottom
+        #        if self.speedy > 0:
+        #            self.rect1.bottom = wall.rect.top
+        #        if self.speedx > 0:
+        #            self.rect1.right = wall.rect.left
+        #        if self.speedx < 0:
+        #            self.rect1.left = wall.rect.right
 
     #def check_collide(self, walls_list, bullet_group, wall_group):
     #    pygame.sprite.groupcollide(bullet_group, wall_group, False, True)
